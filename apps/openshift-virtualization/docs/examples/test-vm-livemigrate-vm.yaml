@@ -1,0 +1,82 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: test-vm-livemigrate
+spec:
+  dataVolumeTemplates:
+  - metadata:
+      name: test-vm-livemigrate-rootdisk
+    spec:
+      pvc:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 30Gi
+        volumeMode: Filesystem
+      source:
+        http:
+          url: https://download.fedoraproject.org/pub/fedora/linux/releases/37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2
+          certConfigMap: trusted-ca-bundle
+  running: true
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: test-vm-livemigrate
+        kubevirt.io/size: small
+        vm.kubevirt.io/name: test-vm-livemigrate
+        os.template.kubevirt.io/fedora37: 'true'
+        flavor.template.kubevirt.io/small: 'true'
+        workload.template.kubevirt.io/server: 'true'
+    spec:
+#      nodeSelector:
+#        node-role.kubernetes.io/baremetal: ""
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/baremetal
+      domain:
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+          - bootOrder: 1
+            disk:
+              bus: virtio
+            name: rootdisk
+          interfaces:
+          - masquerade: {}
+            model: virtio
+            name: default
+          networkInterfaceMultiqueue: true
+          rng: {}
+        machine:
+          type: pc-q35-rhel8.3.0
+        resources:
+          requests:
+            memory: 2Gi
+      evictionStrategy: LiveMigrate
+      hostname: test-vm-livemigrate
+      networks:
+      - name: default
+        pod: {}
+      terminationGracePeriodSeconds: 180
+      volumes:
+      - cloudInitNoCloud:
+          userData: |
+            #cloud-config
+            user: fedora
+            password: yqhl-56fp-cceo
+            chpasswd:
+              expire: false
+            ssh_pwauth: true
+            ssh_authorized_keys:
+            - ''
+        name: cloudinitdisk
+      - dataVolume:
+          name: test-vm-livemigrate-rootdisk
+        name: rootdisk

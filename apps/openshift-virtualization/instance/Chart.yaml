@@ -1,0 +1,4 @@
+apiVersion: v2
+name: openshift-virtualization-instance
+type: application
+version: 0.1.0

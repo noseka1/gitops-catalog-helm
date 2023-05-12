@@ -1,0 +1,81 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: test-vm
+spec:
+  dataVolumeTemplates:
+  - metadata:
+      name: test-vm-rootdisk
+    spec:
+      pvc:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 30Gi
+        volumeMode: Filesystem
+      source:
+        http:
+          url: https://download.fedoraproject.org/pub/fedora/linux/releases/37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2
+          certConfigMap: trusted-ca-bundle
+  running: true
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: test-vm
+        kubevirt.io/size: small
+        vm.kubevirt.io/name: test-vm
+        os.template.kubevirt.io/fedora37: 'true'
+        flavor.template.kubevirt.io/small: 'true'
+        workload.template.kubevirt.io/server: 'true'
+    spec:
+#      nodeSelector:
+#        node-role.kubernetes.io/baremetal: ""
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/baremetal
+      domain:
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+          - bootOrder: 1
+            disk:
+              bus: virtio
+            name: rootdisk
+          interfaces:
+          - masquerade: {}
+            model: virtio
+            name: default
+          networkInterfaceMultiqueue: true
+          rng: {}
+        machine:
+          type: pc-q35-rhel8.3.0
+        resources:
+          requests:
+            memory: 2Gi
+      hostname: test-vm
+      networks:
+      - name: default
+        pod: {}
+      terminationGracePeriodSeconds: 180
+      volumes:
+      - cloudInitNoCloud:
+          userData: |
+            #cloud-config
+            user: fedora
+            password: yqhl-56fp-cceo
+            chpasswd:
+              expire: false
+            ssh_pwauth: true
+            ssh_authorized_keys:
+            - ''
+        name: cloudinitdisk
+      - dataVolume:
+          name: test-vm-rootdisk
+        name: rootdisk
