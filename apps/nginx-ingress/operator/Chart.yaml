@@ -1,0 +1,4 @@
+apiVersion: v2
+name: nginx-ingress-operator
+type: application
+version: 0.1.0
