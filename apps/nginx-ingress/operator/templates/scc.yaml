@@ -16,9 +16,9 @@ fsGroup:
   type: MustRunAs
 supplementalGroups:
   type: MustRunAs
-allowHostNetwork: false
+allowHostNetwork: true
 allowHostPID: false
-allowHostPorts: false
+allowHostPorts: true
 allowHostDirVolumePlugin: false
 allowHostIPC: false
 readOnlyRootFilesystem: false
