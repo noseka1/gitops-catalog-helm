@@ -2,6 +2,7 @@ apiVersion: charts.nginx.org/v1alpha1
 kind: NginxIngress
 metadata:
   name: nginxingress
+  namespace: {{ .Release.Namespace }}
 spec:
   controller:
     affinity: {}
