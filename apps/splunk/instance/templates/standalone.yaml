@@ -1,0 +1,20 @@
+apiVersion: enterprise.splunk.com/v3
+kind: Standalone
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  etcVolumeStorageConfig:
+    storageCapacity: 10Gi
+  varVolumeStorageConfig:
+    storageCapacity: 100Gi
+  serviceAccount: {{ .Release.Name }}
+  # See the available options at:
+  # https://github.com/splunk/splunk-ansible/blob/develop/docs/advanced/default.yml.spec.md
+  defaults: |
+    splunk:
+      hec:
+        ssl: false
+  extraEnv:
+  - name: ANSIBLE_EXTRA_FLAGS
+    value: '-vvv'
