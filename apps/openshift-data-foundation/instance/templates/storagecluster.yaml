@@ -9,7 +9,9 @@ metadata:
 spec:
   enableCephTools: true
   encryption:
-    enable: {{ .Values.encryptionEnable }}
+{{ if .Values.encryptionEnable }}
+    enable: true
+{{ end }}
     kms: {}
   storageDeviceSets:
   - config: {}
