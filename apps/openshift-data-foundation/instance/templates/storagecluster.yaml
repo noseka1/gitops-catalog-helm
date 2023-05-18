@@ -1,0 +1,30 @@
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-storagecluster
+  namespace: openshift-storage
+spec:
+  enableCephTools: true
+  encryption:
+    enable: {{ .Values.encryptionEnable }}
+    kms: {}
+  storageDeviceSets:
+  - config: {}
+    count: 1
+    dataPVCTemplate:
+      metadata: {}
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Ti
+        storageClassName: {{ .Values.storageClassName }}
+        volumeMode: Block
+      status: {}
+    name: ocs-deviceset
+    placement: {}
+    portable: true
+    preparePlacement: {}
+    replica: 3
+    resources: {}
