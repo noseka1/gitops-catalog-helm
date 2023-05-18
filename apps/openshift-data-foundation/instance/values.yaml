@@ -1,3 +1,5 @@
 # Example storage class names: gp3-csi (AWS), thin-csi (VMware), openebs-lvm, lvms-loop1-vg
 storageClassName: gp3-csi
 encryptionEnable: false
+uninstallCleanUpPolicy: delete
+uninstallMode: forced
