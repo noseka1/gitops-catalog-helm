@@ -1,0 +1,23 @@
+apiVersion: externaldns.olm.openshift.io/v1alpha1
+kind: ExternalDNS
+metadata:
+  name: external-dns
+  namespace: external-dns
+spec:
+  provider:
+    aws:
+      credentials:
+        name: aws-access-key
+    type: AWS
+  domains:
+    - filterType: Include
+      matchType: Exact
+      name: {{ .Values.domainName }}
+  source:
+    type: OpenShiftRoute
+    labelFilter:
+      matchLabels:
+        external-dns.mydomain.org/publish: "yes"
+    hostnameAnnotation: Allow
+    fqdnTemplate:
+      - {{ "'{{.Name}}." }}{{ .Values.domainName }}{{ "'" }}
