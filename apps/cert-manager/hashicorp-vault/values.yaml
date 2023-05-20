@@ -1,0 +1,10 @@
+vault:
+  server: https://vault.example.com:8200
+  caBundle: ''
+  auth:
+    kubernetes:
+     role: cert-manager
+     mountPath: /v1/auth/kubernetes
+
+certificate:
+  dnsName: mytest.apps.mycluster.example.com

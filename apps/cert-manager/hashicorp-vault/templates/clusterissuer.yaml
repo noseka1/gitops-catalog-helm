@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: hashicorp-vault
+  namespace: {{ .Release.Namespace }}
+spec:
+  vault:
+    path: pki/sign/mycluster
+    server: {{ .Values.vault.server }}
+{{ if .Values.vault.caBundle }}
+    caBundle: {{ .Values.vault.caBundle }}
+{{ end }}
+    auth:
+      kubernetes:
+        role: {{ .Values.vault.auth.kubernetes.role }}
+        mountPath: {{ .Values.vault.auth.kubernetes.mountPath }}
+        secretRef:
+          name: hashicorp-vault-token-static
+          key: token
