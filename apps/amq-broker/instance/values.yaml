@@ -1,0 +1,4 @@
+deploymentPlanSize: 3
+amqClusterPassword: REPLACEME
+amqPassword: REPLACEME
+

@@ -1,0 +1,21 @@
+apiVersion: broker.amq.io/v1beta1
+kind: ActiveMQArtemis
+metadata:
+  name: broker
+  namespace: {{ .Release.Namespace }}
+spec:
+  console:
+    expose: true
+    sslEnabled: false
+  deploymentPlan:
+    image: placeholder
+    size: {{ .Values.deploymentPlanSize }}
+    requireLogin: false
+    persistenceEnabled: true
+    journalType: nio
+    messageMigration: true
+    jolokiaAgentEnabled: true
+    managementRBACEnabled: true
+    enableMetricsPlugin: true
+    storage:
+      size: 10Gi
