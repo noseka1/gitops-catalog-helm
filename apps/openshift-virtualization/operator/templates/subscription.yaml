@@ -4,7 +4,7 @@ metadata:
   name: kubevirt-hyperconverged
   namespace: openshift-cnv
 spec:
-  channel: stable
+  channel: {{ .Values.subscriptionChannel }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: kubevirt-hyperconverged
   source: redhat-operators
