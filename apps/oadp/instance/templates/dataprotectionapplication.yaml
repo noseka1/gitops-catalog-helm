@@ -1,0 +1,74 @@
+apiVersion: oadp.openshift.io/v1alpha1
+kind: DataProtectionApplication
+metadata:
+  name: velero
+  namespace: {{ .Release.Namespace }}
+spec:
+  configuration:
+    velero:
+      defaultPlugins:
+        # The openshift plug-in is mandatory.
+        - openshift
+        - aws
+{{ if .Values.dataMoverEnabled }}
+        - vsm
+{{ end }}
+{{ if not .Values.vSphereEnabled }}
+        - csi
+      featureFlags:
+        - EnableCSI
+{{ end }}
+{{ if .Values.vSphereEnabled }}
+      customPlugins:
+        # OADP operator doesn't support vsphere on the default Velero plugin list.
+        # Need to enable vsphere plugin as a custom Velero plugin.
+        - name: vsphere
+          image: vsphereveleroplugin/velero-plugin-for-vsphere:v1.3.0-rc2
+      featureFlags:
+        # If local mode is enabled, Velero vSphere plugin will skip the upload of volume
+        # snapshots to S3. The datamgr-for-vsphere-plugin pod won't be deployed at all.
+        #- EnableLocalMode
+{{ end }}
+      # If you need to install Velero without a default backup storage location
+      # NoDefaultBackupLocation flag is required for confirmation
+      noDefaultBackupLocation: false
+    restic:
+      enable: false
+  backupLocations:
+    - velero:
+        provider: aws
+        # Default indicates this location is the default backup storage location
+        default: true
+        objectStorage:
+          # Name of an existing bucket
+          bucket: {{ .Values.s3Storage.bucketName }}
+          # In the bucket, a prefix subdirectory will be created
+          prefix: velero
+        config:
+{{ if gt (len .Values.s3Storage.s3Url) 0 }}
+          s3Url: {{ .Values.s3Storage.s3Url }}
+{{ end }}
+          s3ForcePathStyle: {{ .Values.s3Storage.s3ForcePathStyle | toString | squote }}
+          insecureSkipTLSVerify: {{ .Values.s3Storage.insecureSkipTlsVerify | toString | squote }}
+{{ if gt (len .Values.s3Storage.caCert) 0 }}
+          caCert: |{{ .Values.s3Storage.caCert | nindent 12 }}
+{{ end }}
+          region: {{ .Values.s3Storage.awsRegion }}
+          # Choose a profile from the AWS config file
+          profile: default
+        accessMode: ReadWrite
+        credential:
+          name: cloud-credentials
+          key: data
+{{ if .Values.vSphereEnabled }}
+  snapshotLocations:
+    - velero:
+        provider: velero.io/vsphere
+{{ end }}
+  features:
+    dataMover:
+      enable: {{ .Values.dataMoverEnabled }}
+      credentialName: dm-credential
+      maxConcurrentBackupVolumes: "3"
+      maxConcurrentRestoreVolumes: "3"
+      pruneInterval: "14"

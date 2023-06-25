@@ -1,0 +1,17 @@
+# If OpenShift is deployed on top of vSphere then enable this
+vSphereEnabled: false
+
+# Configure Velero connection to an S3 or S3-compatible storage
+s3Storage:
+  awsAccessKeyId: admin
+  awsSecretAccessKey: ''
+  awsRegion: minio
+  bucketName: mybucket1
+  s3Url: http://minio.openshift-adp.svc:9000
+  s3ForcePathStyle: true
+  insecureSkipTlsVerify: false
+  caCert: ''
+
+# Configure VolSync data mover
+dataMoverEnabled: false
+dataMoverResticPassword: ''
