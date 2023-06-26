@@ -1,0 +1,4 @@
+apiVersion: v2
+name: jaeger-operator
+type: application
+version: 0.1.0

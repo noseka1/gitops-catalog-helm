@@ -1,0 +1,4 @@
+apiVersion: v2
+name: elasticsearch-operator
+type: application
+version: 0.1.0

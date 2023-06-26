@@ -1,0 +1,9 @@
+accessLoggingEnabled: true
+
+autoScaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+
+grafanaPersistenceEnabled: true
+jaegerPersistenceEnabled: true
