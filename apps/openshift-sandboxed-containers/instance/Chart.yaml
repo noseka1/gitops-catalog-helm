@@ -1,0 +1,4 @@
+apiVersion: v2
+name: openshift-sandboxed-containers-operator
+type: application
+version: 0.1.0
