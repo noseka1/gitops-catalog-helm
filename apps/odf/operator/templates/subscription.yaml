@@ -4,7 +4,9 @@ metadata:
   name: odf-operator
   namespace: openshift-storage
 spec:
+{{- if .Values.subscriptionChannel }}
   channel: {{ .Values.subscriptionChannel }}
+{{- end }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: odf-operator
   source: redhat-operators
