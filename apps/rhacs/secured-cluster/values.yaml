@@ -1,0 +1,12 @@
+# Deployment mode is either 'dev' or 'prod'. Prod enables Scanner autoscaling and higher resource requests.
+deploymentMode: dev
+
+# CA certificates that will be added to the RHACS trusted certificates
+additionalTrustedCa: ''
+
+clusterName: ''
+
+# Sensor will connect to this RHACS Central host name
+centralHost: ''
+
+logLevel: info
