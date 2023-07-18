@@ -51,7 +51,8 @@ spec:
           s3ForcePathStyle: {{ .Values.s3Storage.s3ForcePathStyle | toString | squote }}
           insecureSkipTLSVerify: {{ .Values.s3Storage.insecureSkipTlsVerify | toString | squote }}
 {{- if gt (len .Values.s3Storage.caCert) 0 }}
-          caCert: |{{ .Values.s3Storage.caCert | nindent 12 }}
+          caCert: |
+            {{- .Values.s3Storage.caCert | nindent 12 }}
 {{- end }}
           region: {{ .Values.s3Storage.awsRegion }}
           # Choose a profile from the AWS config file
