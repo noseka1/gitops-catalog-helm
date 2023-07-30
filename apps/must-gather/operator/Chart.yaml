@@ -1,0 +1,4 @@
+apiVersion: v2
+name: must-gather-operator
+type: application
+version: 0.1.0
