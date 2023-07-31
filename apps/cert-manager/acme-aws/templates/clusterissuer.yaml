@@ -1,0 +1,25 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: acme-aws
+  namespace: {{ .Release.Namespace }}
+spec:
+  acme:
+    server: {{ .Values.acmeServer }}
+    email: {{ .Values.acmeEmail }}
+    privateKeySecretRef:
+      name: acme-aws-account-private-key
+    solvers:
+    - selector: {}
+      dns01:
+        route53:
+          region: {{ .Values.awsRegion }}
+{{- if gt (len .Values.awsHostedZoneID) 0 }}
+          hostedZoneID: '{{ .Values.awsHostedZoneID }}'
+{{- end }}
+          accessKeyIDSecretRef:
+            name: acme-aws-credentials
+            key: aws_access_key_id
+          secretAccessKeySecretRef:
+            name: acme-aws-credentials
+            key: aws_secret_access_key

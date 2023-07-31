@@ -1,0 +1,4 @@
+issuerTlsCrt: ''
+issuerTlsKey: ''
+
+certificateDnsName: mytest.example.com

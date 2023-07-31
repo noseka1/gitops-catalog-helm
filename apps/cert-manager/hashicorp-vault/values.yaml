@@ -6,5 +6,4 @@ vault:
      role: cert-manager
      mountPath: /v1/auth/kubernetes
 
-certificate:
-  dnsName: mytest.apps.mycluster.example.com
+certificateDnsName: mytest.example.com

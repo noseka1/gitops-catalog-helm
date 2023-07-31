@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: hashicorp-vault-test
+  name: acme-aws-test
   namespace: {{ .Release.Namespace }}
 spec:
-  secretName: hashicorp-vault-test
+  secretName: acme-aws-test
   issuerRef:
     kind: ClusterIssuer
-    name: hashicorp-vault
+    name: acme-aws
   commonName: {{ .Values.certificateDnsName }}
   dnsNames:
   - {{ .Values.certificateDnsName }}
