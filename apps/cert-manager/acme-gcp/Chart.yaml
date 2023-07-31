@@ -1,0 +1,4 @@
+apiVersion: v2
+name: cert-manager-acme-gcp
+type: application
+version: 0.1.0

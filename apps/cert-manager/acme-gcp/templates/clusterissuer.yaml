@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: acme-gcp
+  namespace: {{ .Release.Namespace }}
+spec:
+  acme:
+    server: {{ .Values.acmeServer }}
+    email: {{ .Values.acmeEmail }}
+    privateKeySecretRef:
+      name: acme-gcp-account-private-key
+    solvers:
+    - selector: {}
+      dns01:
+        cloudDNS:
+          project: '{{ .Values.gcpCloudDnsProjectId }}'
+          serviceAccountSecretRef:
+            name: acme-gcp-credentials
+            key: service_account.json

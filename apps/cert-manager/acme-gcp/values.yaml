@@ -1,0 +1,12 @@
+# The staging ACME server generates certificates that are not publicly trusted
+# but it has high rate limits that allow testing the certificate issuance.
+# For production use, set the ACME server to https://acme-v02.api.letsencrypt.org/directory
+# which will generate publicly trusted certificates. Note that production
+# rate limits are really low, so you want be able to regenerate certificates
+# for the same DNS domain very often.
+acmeServer: https://acme-staging-v02.api.letsencrypt.org/directory
+acmeEmail: ''
+
+gcpCloudDnsProjectId: ''
+
+certificateDnsName: mytest.example.com
