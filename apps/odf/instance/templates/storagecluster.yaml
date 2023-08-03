@@ -13,6 +13,17 @@ spec:
     enable: true
 {{ end }}
     kms: {}
+  monPVCTemplate:
+      metadata: {}
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: '{{ .Values.monPVCTemplate.storageCapacity }}'
+        storageClassName: {{ .Values.monPVCTemplate.storageClassName }}
+        volumeMode: Filesystem
+      status: {}
   storageDeviceSets:
   - config: {}
     count: 1
@@ -23,8 +34,8 @@ spec:
         - ReadWriteOnce
         resources:
           requests:
-            storage: 2Ti
-        storageClassName: {{ .Values.storageClassName }}
+            storage: '{{ .Values.storageDeviceSets.storageCapacity }}'
+        storageClassName: {{ .Values.storageDeviceSets.storageClassName }}
         volumeMode: Block
       status: {}
     name: ocs-deviceset
