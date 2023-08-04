@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: test-vm
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
   - name: nodeport
-    nodePort: 30000
     port: 27017
     protocol: TCP
     targetPort: 22
   selector:
-    vm.kubevirt.io/name: test-vm
+    vm.kubevirt.io/name: {{ .Release.Name }}
   type: NodePort

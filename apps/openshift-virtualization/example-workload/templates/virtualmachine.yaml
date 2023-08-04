@@ -1,37 +1,42 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: test-vm
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
 spec:
   dataVolumeTemplates:
   - metadata:
-      name: test-vm-rootdisk
+      creationTimestamp: null
+      name: {{ .Release.Name }}-rootdisk
     spec:
       pvc:
-        accessModes:
-          - ReadWriteOnce
+        accessModes: {{ toYaml .Values.machineRootDiskAccessModes | nindent 8 }}
         resources:
           requests:
-            storage: 30Gi
-#        storageClassName: ocs-storagecluster-ceph-rbd
-#        volumeMode: Block
+            storage: '{{ .Values.machineRootDiskCapacity }}'
+{{- if gt (len .Values.machineRootDiskStorageClassName) 0 }}
+        storageClassName: {{ .Values.machineRootDiskStorageClassName }}
+{{- end }}
+        volumeMode: {{ .Values.machineRootDiskVolumeMode }}
       source:
         http:
-          url: https://download.fedoraproject.org/pub/fedora/linux/releases/37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2
-          certConfigMap: trusted-ca-bundle
-  running: true
+          url: {{ .Values.machineImageUrl }}
+          certConfigMap: {{ .Release.Name }}-trusted-ca-bundle
+  runStrategy: Always
   template:
     metadata:
       labels:
-        kubevirt.io/domain: test-vm
+        kubevirt.io/domain: {{ .Release.Name }}
         kubevirt.io/size: small
-        vm.kubevirt.io/name: test-vm
+        vm.kubevirt.io/name: {{ .Release.Name }}
         os.template.kubevirt.io/fedora37: 'true'
         flavor.template.kubevirt.io/small: 'true'
         workload.template.kubevirt.io/server: 'true'
     spec:
-#      nodeSelector:
-#        node-role.kubernetes.io/baremetal: ""
+      {{- with .Values.machineNodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       tolerations:
       - effect: NoSchedule
         key: node-role.kubernetes.io/baremetal
@@ -60,7 +65,8 @@ spec:
         resources:
           requests:
             memory: 2Gi
-      hostname: test-vm
+      evictionStrategy: {{ .Values.machineEvictionStrategy }}
+      hostname: {{ .Release.Name }}
       networks:
       - name: default
         pod: {}
@@ -69,14 +75,14 @@ spec:
       - cloudInitNoCloud:
           userData: |
             #cloud-config
-            user: fedora
-            password: yqhl-56fp-cceo
+            user: '{{ .Values.machineUserName }}'
+            password: '{{ .Values.machineUserPassword }}'
             chpasswd:
               expire: false
             ssh_pwauth: true
             ssh_authorized_keys:
-            - ''
+            - '{{ .Values.machineSshAuthorizedKey }}'
         name: cloudinitdisk
       - dataVolume:
-          name: test-vm-rootdisk
+          name: {{ .Release.Name }}-rootdisk
         name: rootdisk

@@ -1,6 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: trusted-ca-bundle
   labels:
     config.openshift.io/inject-trusted-cabundle: 'true'
+  name: {{ .Release.Name }}-trusted-ca-bundle
+  namespace: {{ .Release.Namespace }}

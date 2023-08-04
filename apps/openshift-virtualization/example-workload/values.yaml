@@ -1,0 +1,16 @@
+machineSshAuthorizedKey: ''
+machineUserName: fedora
+machineUserPassword: yqhl-56fp-cceo
+
+machineNodeSelector: {}
+#  node-role.kubernetes.io/baremetal: ""
+
+machineEvictionStrategy: None
+
+machineRootDiskAccessModes:
+- ReadWriteOnce
+machineRootDiskCapacity: 30Gi
+machineRootDiskStorageClassName: ''
+machineRootDiskVolumeMode: Filesystem
+
+machineImageUrl: https://download.fedoraproject.org/pub/fedora/linux/releases/37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2
