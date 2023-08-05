@@ -1,0 +1,4 @@
+s3Endpoint: http://minio:9000
+s3Bucket: mybucket1
+s3AccessKeyId: ''
+s3AccessKeySecret: ''
