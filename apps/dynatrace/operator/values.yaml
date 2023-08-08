@@ -1,0 +1,7 @@
+apiToken: ''
+dataIngestToken: ''
+
+dynatrace-operator:
+  installCRD: true
+  csidriver:
+    enabled: true
