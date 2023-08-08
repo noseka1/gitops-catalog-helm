@@ -3,3 +3,5 @@
 # For Managed, change the apiUrl address.
 # For instructions on how to determine the environment ID and how to configure the apiUrl address, see https://www.dynatrace.com/support/help/reference/dynatrace-concepts/environment-id/.
 apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api
+
+clusterName: mycluster
