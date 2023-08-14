@@ -55,15 +55,8 @@ spec:
       terminationGracePeriodSeconds: 180
       volumes:
       - cloudInitNoCloud:
-          userData: |
-            #cloud-config
-            user: '{{ .Values.machineUserName }}'
-            password: '{{ .Values.machineUserPassword }}'
-            chpasswd:
-              expire: false
-            ssh_pwauth: true
-            ssh_authorized_keys:
-            - '{{ .Values.machineSshAuthorizedKey }}'
+          secretRef:
+            name: {{ .Release.Name }}-cloudinit
         name: cloudinitdisk
       - dataVolume:
           name: {{ .Release.Name }}-rootdisk
