@@ -4,24 +4,6 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
-  dataVolumeTemplates:
-  - metadata:
-      creationTimestamp: null
-      name: {{ .Release.Name }}-rootdisk
-    spec:
-      pvc:
-        accessModes: {{ toYaml .Values.machineRootDiskAccessModes | nindent 8 }}
-        resources:
-          requests:
-            storage: '{{ .Values.machineRootDiskCapacity }}'
-{{- if gt (len .Values.machineRootDiskStorageClassName) 0 }}
-        storageClassName: {{ .Values.machineRootDiskStorageClassName }}
-{{- end }}
-        volumeMode: {{ .Values.machineRootDiskVolumeMode }}
-      source:
-        http:
-          url: {{ .Values.machineImageUrl }}
-          certConfigMap: {{ .Release.Name }}-trusted-ca-bundle
   runStrategy: Always
   template:
     metadata:

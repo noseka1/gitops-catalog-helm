@@ -1,0 +1,25 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  annotations:
+    # The default behaviour is that after the image has been imported,
+    # the datavolume object is deleted (garbage collected).
+    # Argo CD application won't be able to sync if the object is deleted.
+    # Preserve the datavolume object after the image has been imported.
+    cdi.kubevirt.io/storage.deleteAfterCompletion: 'false'
+  name: {{ .Release.Name }}-rootdisk
+  namespace: {{ .Release.Namespace }}
+spec:
+  pvc:
+    accessModes: {{ toYaml .Values.machineRootDiskAccessModes | nindent 8 }}
+    resources:
+      requests:
+        storage: '{{ .Values.machineRootDiskCapacity }}'
+{{- if gt (len .Values.machineRootDiskStorageClassName) 0 }}
+    storageClassName: {{ .Values.machineRootDiskStorageClassName }}
+{{- end }}
+    volumeMode: {{ .Values.machineRootDiskVolumeMode }}
+  source:
+    http:
+      url: {{ .Values.machineImageUrl }}
+      certConfigMap: {{ .Release.Name }}-trusted-ca-bundle
