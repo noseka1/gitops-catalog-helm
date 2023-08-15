@@ -5,10 +5,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-  - name: nodeport
-    port: 27017
+  - name: ssh
+    port: {{ .Values.machineServicePort }}
     protocol: TCP
     targetPort: 22
   selector:
     vm.kubevirt.io/name: {{ .Release.Name }}
-  type: NodePort
+  type: {{ .Values.machineServiceType }}
