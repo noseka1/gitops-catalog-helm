@@ -9,7 +9,7 @@ machineEvictionStrategy: None
 
 machineRootDiskAccessModes:
 - ReadWriteOnce
-machineRootDiskCapacity: 30Gi
+machineRootDiskCapacity: 10Gi
 machineRootDiskStorageClassName: ''
 machineRootDiskVolumeMode: Filesystem
 
