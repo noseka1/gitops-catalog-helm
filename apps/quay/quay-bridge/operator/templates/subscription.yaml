@@ -4,7 +4,9 @@ metadata:
   name: quay-bridge-operator
   namespace: {{ .Release.Namespace }}
 spec:
+{{- if .Values.subscriptionChannel }}
   channel: {{ .Values.subscriptionChannel }}
+{{- end }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: quay-bridge-operator
   source: redhat-operators
