@@ -1,147 +1,144 @@
-apiVersion: flows.netobserv.io/v1alpha1
+# This file is base on:
+# https://github.com/netobserv/network-observability-operator/blob/release-1.3/config/samples/flows_v1beta1_flowcollector.yaml
+apiVersion: flows.netobserv.io/v1beta1
 kind: FlowCollector
 metadata:
   name: cluster
 spec:
+  namespace: {{ .Release.Namespace }}
+  deploymentModel: DIRECT
   agent:
+    type: EBPF
     ebpf:
+      imagePullPolicy: IfNotPresent
+      sampling: 50
       cacheActiveTimeout: 5s
       cacheMaxFlows: 100000
-      debug: {}
-      excludeInterfaces:
-      - lo
-      imagePullPolicy: IfNotPresent
-      kafkaBatchSize: 10485760
+      interfaces: []
+      excludeInterfaces: [ "lo" ]
       logLevel: info
       resources:
+        requests:
+          memory: 50Mi
+          cpu: 100m
         limits:
           memory: 800Mi
-        requests:
-          cpu: 100m
-          memory: 50Mi
-      sampling: 50
-    ipfix:
-      cacheActiveTimeout: 20s
-      cacheMaxFlows: 400
-      clusterNetworkOperator:
-        namespace: openshift-network-operator
-      forceSampleAll: false
-      ovnKubernetes:
-        containerName: ovnkube-node
-        daemonSetName: ovnkube-node
-        namespace: ovn-kubernetes
-      sampling: 400
-    type: EBPF
-  consolePlugin:
-    autoscaler:
-      maxReplicas: 3
-      metrics:
-      - resource:
-          name: cpu
-          target:
-            averageUtilization: 50
-            type: Utilization
-        type: Resource
-      minReplicas: 1
-      status: DISABLED
+      kafkaBatchSize: 10485760
+  processor:
+    port: 2055
     imagePullPolicy: IfNotPresent
     logLevel: info
+    profilePort: 6060
+    metrics:
+      server:
+        port: 9102
+      ignoreTags:
+        - egress
+        - packets
+      disableAlerts: []
+    dropUnusedFields: true
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 100m
+      limits:
+        memory: 800Mi
+    kafkaConsumerReplicas: 3
+#    kafkaConsumerAutoscaler: null
+    kafkaConsumerQueueCapacity: 1000
+    kafkaConsumerBatchSize: 10485760
+    logTypes: FLOWS
+    conversationTerminatingTimeout: 5s
+    conversationHeartbeatInterval: 30s
+    conversationEndTimeout: 10s
+  kafka:
+    address: "kafka-cluster-kafka-bootstrap.netobserv"
+    topic: network-flows
+    tls:
+      enable: false
+#      caCert:
+#        type: secret
+#        name: kafka-cluster-cluster-ca-cert
+#        certFile: ca.crt
+#      userCert:
+#        type: secret
+#        name: flp-kafka
+#        certFile: user.crt
+#        certKey: user.key
+  loki:
+    url: 'https://loki-gateway-http.netobserv.svc:8080/api/logs/v1/network/'
+    statusUrl: 'https://loki-query-frontend-http.netobserv.svc:3100/'
+    authToken: FORWARD
+    tls:
+      enable: true
+      caCert:
+        type: configmap
+        name: loki-gateway-ca-bundle
+        certFile: service-ca.crt
+      insecureSkipVerify: false
+    statusTls:
+      enable: true
+      caCert:
+        certFile: service-ca.crt
+        name: loki-ca-bundle
+        type: configmap
+      userCert:
+        certFile: tls.crt
+        certKey: tls.key
+        name: loki-query-frontend-http
+        type: secret
+      insecureSkipVerify: false
+    batchWait: 1s
+    batchSize: 10485760
+    minBackoff: 1s
+    maxBackoff: 5s
+    maxRetries: 2
+  consolePlugin:
+    register: true
+    imagePullPolicy: IfNotPresent
     port: 9001
+    logLevel: info
+    autoscaler:
+      status: DISABLED
+      minReplicas: 1
+      maxReplicas: 3
+      metrics:
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 50
     portNaming:
       enable: true
       portNames:
         "3100": loki
     quickFilters:
-    - default: true
+    - name: Applications
       filter:
-        dst_namespace!: openshift-,netobserv
-        src_namespace!: openshift-,netobserv
-      name: Applications
-    - filter:
-        dst_namespace: openshift-,netobserv
-        src_namespace: openshift-,netobserv
-      name: Infrastructure
-    - default: true
+        src_namespace!: 'openshift-,netobserv'
+        dst_namespace!: 'openshift-,netobserv'
+      default: true
+    - name: Infrastructure
       filter:
-        dst_kind: Pod
-        src_kind: Pod
-      name: Pods network
-    - filter:
-        dst_kind: Service
-      name: Services network
-    register: true
-    replicas: 1
-    resources:
-      limits:
-        memory: 100Mi
-      requests:
-        cpu: 100m
-        memory: 50Mi
-  deploymentModel: DIRECT
+        src_namespace: 'openshift-,netobserv'
+        dst_namespace: 'openshift-,netobserv'
+    - name: Pods network
+      filter:
+        src_kind: 'Pod'
+        dst_kind: 'Pod'
+      default: true
+    - name: Services network
+      filter:
+        dst_kind: 'Service'
   exporters: []
-  kafka:
-    address: kafka-cluster-kafka-bootstrap.netobserv
-    tls:
-      caCert:
-        certFile: ca.crt
-        name: kafka-cluster-cluster-ca-cert
-        type: secret
-      enable: false
-      insecureSkipVerify: false
-      userCert:
-        certFile: user.crt
-        certKey: user.key
-        name: flp-kafka
-        type: secret
-    topic: network-flows
-  loki:
-    authToken: HOST
-    batchSize: 10485760
-    batchWait: 1s
-    maxBackoff: 5s
-    maxRetries: 2
-    minBackoff: 1s
-    staticLabels:
-      app: netobserv-flowcollector
-    statusUrl: https://loki-query-frontend-http.netobserv.svc:3100/
-    tenantID: network
-    timeout: 10s
-    tls:
-      caCert:
-        certFile: service-ca.crt
-        name: openshift-service-ca.crt
-        type: configmap
-      enable: true
-      insecureSkipVerify: false
-      userCert: {}
-    url: https://loki-gateway-http.netobserv.svc:8080/api/logs/v1/network
-  namespace: netobserv
-  processor:
-    debug: {}
-    dropUnusedFields: true
-    enableKubeProbes: true
-    healthPort: 8080
-    imagePullPolicy: IfNotPresent
-    kafkaConsumerAutoscaler:
-      maxReplicas: 3
-      status: DISABLED
-    kafkaConsumerBatchSize: 10485760
-    kafkaConsumerQueueCapacity: 1000
-    kafkaConsumerReplicas: 3
-    logLevel: info
-    metrics:
-      ignoreTags:
-      - egress
-      - packets
-      server:
-        port: 9102
-        tls:
-          type: DISABLED
-    port: 2055
-    profilePort: 6060
-    resources:
-      limits:
-        memory: 800Mi
-      requests:
-        cpu: 100m
-        memory: 100Mi
+    # - type: KAFKA
+    #   kafka:
+    #     address: "kafka-cluster-kafka-bootstrap.netobserv"
+    #     topic: netobserv-flows-export
+    # or
+    # - type: IPFIX
+    #   ipfix:
+    #     targetHost: "ipfix-collector.ipfix.svc.cluster.local"
+    #     targetPort: 4739
+    #     transport: TCP or UDP (optional - defaults to TCP)
