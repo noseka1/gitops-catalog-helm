@@ -1,0 +1,11 @@
+manageNamespace: true
+storageClassName: ''
+# Defines the mode in which lokistack-gateway component will be configured
+# Known values are static, dynamic, openshift-network, openshift-logging
+tenantsMode: openshift-network
+
+s3AccessKeyId: ''
+s3SecretAccessKey: ''
+s3BucketNames: mybucket1
+s3Endpoint: http://minio.loki.svc:9000
+s3Region: minio
