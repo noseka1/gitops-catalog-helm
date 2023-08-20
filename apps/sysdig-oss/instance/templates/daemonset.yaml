@@ -15,7 +15,6 @@ spec:
       containers:
       - image: docker.io/sysdig/sysdig:latest
         command:
-        - /bin/bash
         - /sysdig-oss/run.sh
         imagePullPolicy: Always
         name: sysdig-oss
@@ -26,12 +25,14 @@ spec:
           mountPath: /host
           mountPropagation: Bidirectional
         - name: init
-          mountPath: /sysdig-oss
+          mountPath: /sysdig-oss/run.sh
+          subPath: run.sh
       serviceAccountName: sysdig-oss
       volumes:
       - name: init
         configMap:
           name: sysdig-init
+          defaultMode: 0755
       - name: host
         hostPath:
           path: /
