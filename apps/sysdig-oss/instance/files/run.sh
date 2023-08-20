@@ -7,8 +7,8 @@ dnf repolist --disablerepo=*
 
 # Install pre-reqs for building the sysdig kernel module
 dnf install \
-  --releasever 8.4 \
-  --enablerepo rhel-8-for-x86_64-baseos-eus-rpms \
+  --releasever 9.2 \
+  --enablerepo rhel-9-for-x86_64-baseos-eus-rpms \
   --assumeyes \
   kernel-devel-$(uname -r) \
   elfutils-libelf-devel \

@@ -13,7 +13,7 @@ spec:
         app: sysdig-oss
     spec:
       containers:
-      - image: docker.io/sysdig/sysdig:latest
+      - image: quay.io/noseka1/sysdig-custom:rhel9
         command:
         - /sysdig-oss/run.sh
         imagePullPolicy: Always
