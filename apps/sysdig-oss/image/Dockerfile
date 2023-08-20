@@ -47,3 +47,27 @@ RUN rm -df /lib/modules \
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["bash"]
+
+# The subscription-manager in the UBI9 image is not able to detect that it is running in a container:
+#
+# $ subscription-manager status
+# +-------------------------------------------+
+#    System Status Details
+# +-------------------------------------------+
+# Overall Status: Unknown
+#
+# System Purpose Status: Unknown
+#
+# The subscription-manager in the UBI8 image worked correctly:
+#
+# $ subscription-manager status
+# subscription-manager is disabled when running inside a container. Please refer to your host system for subscription management.
+#
+# The subscription-manager in UBI9 image doesn't fill the content of /etc/yum.repos.d/redhat.repo properly, instead it removes all
+# repositories from this file. This makes installing of any RHEL images impossible.
+# As a workaround, let's keep the redhat.repo file generated during the image build in the image and rename it to
+# redhat.workaround.repo so that the subscription-manager doesn't delete its content.
+# Not that this redhat.workaround.repo file hard-codes the locations of RHEL entitlement files and so will only work on machines
+# which use the same locations.
+
+RUN mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/redhat.workaround.repo
