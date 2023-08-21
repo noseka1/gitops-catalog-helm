@@ -1,0 +1,13 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: node-observability-operator
+  namespace: {{ .Release.Namespace }}
+spec:
+{{- if .Values.subscriptionChannel }}
+  channel: {{ .Values.subscriptionChannel }}
+{{- end }}
+  installPlanApproval: {{ .Values.subscriptionApproval }}
+  name: node-observability-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
