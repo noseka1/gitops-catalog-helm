@@ -4,8 +4,8 @@ metadata:
   name: odf-operator
   namespace: openshift-storage
 spec:
-{{- if .Values.subscriptionChannel }}
-  channel: {{ .Values.subscriptionChannel }}
+{{- with .Values.subscriptionChannel }}
+  channel: {{ . }}
 {{- end }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: odf-operator
