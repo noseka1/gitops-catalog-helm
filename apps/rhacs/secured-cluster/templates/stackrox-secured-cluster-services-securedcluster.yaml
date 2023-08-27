@@ -29,7 +29,7 @@ spec:
   clusterName: {{ .Values.clusterName }}
   perNode:
     collector:
-      collection: KernelModule
+      collection: {{ .Values.perNodeCollectorCollection }}
       imageFlavor: Regular
     taintToleration: TolerateTaints
   customize:
