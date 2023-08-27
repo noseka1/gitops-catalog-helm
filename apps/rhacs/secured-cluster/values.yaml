@@ -11,5 +11,5 @@ centralHost: ''
 
 logLevel: info
 
-# Collection method is either KernelModule, EBPF, CORE_BPF, or NO_COLLECTION.
+# Collection method is either EBPF, CORE_BPF, or NO_COLLECTION.
 perNodeCollectorCollection: CORE_BPF
