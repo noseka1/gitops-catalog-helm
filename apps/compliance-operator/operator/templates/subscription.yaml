@@ -4,7 +4,9 @@ metadata:
   name: compliance-operator
   namespace: openshift-compliance
 spec:
-  channel: release-0.1
+{{- with .Values.subscriptionChannel }}
+  channel: {{ . }}
+{{- end }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: compliance-operator
   source: redhat-operators
