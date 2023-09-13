@@ -20,6 +20,13 @@ spec:
 {{- end }}
     volumeMode: {{ .Values.machineRootDiskVolumeMode }}
   source:
+{{- with .Values.machineImageHttpUrl }}
     http:
-      url: {{ .Values.machineImageUrl }}
-      certConfigMap: {{ .Release.Name }}-trusted-ca-bundle
+      url: {{ . }}
+      certConfigMap: {{ $.Release.Name }}-trusted-ca-bundle
+{{- end }}
+{{- with .Values.machineImageRegistryUrl }}
+    registry:
+      url: {{ . }}
+      certConfigMap: {{ $.Release.Name }}-trusted-ca-bundle
+{{- end }}

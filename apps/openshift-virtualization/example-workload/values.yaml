@@ -13,7 +13,11 @@ machineRootDiskCapacity: 10Gi
 machineRootDiskStorageClassName: ''
 machineRootDiskVolumeMode: Filesystem
 
-machineImageUrl: https://download.fedoraproject.org/pub/fedora/linux/releases/37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2
+# Download the machine image from URL
+machineImageHttpUrl: https://download.fedoraproject.org/pub/fedora/linux/releases/37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2
+
+# Pull the machine image from a container registry. For example: docker://quay.io/containerdisks/fedora:37
+machineImageRegistryUrl: ''
 
 machineServiceType: NodePort
 machineServicePort: 27017
