@@ -10,6 +10,11 @@ spec:
   agent:
     type: EBPF
     ebpf:
+      features:
+      - DNSTracking
+      - PacketDrop
+      # Privileged mode is required for features DNSTracking and PacketDrop
+      privileged: true
       imagePullPolicy: IfNotPresent
       sampling: 50
       cacheActiveTimeout: 5s
