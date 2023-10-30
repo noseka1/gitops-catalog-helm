@@ -15,6 +15,8 @@ spec:
     # It will not have any effect unless Listen On Creates is set to true as well.
     # The default value is false.
     listenOnUpdates: true
+    # The number of replicas of the admission control pod. Default is 3.
+    replicas: {{ .Values.admissionControlReplicas }}
   sensor:
 {{- if eq .Values.deploymentMode "dev" }}
     resources:

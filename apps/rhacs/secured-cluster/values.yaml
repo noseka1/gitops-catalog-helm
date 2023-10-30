@@ -13,3 +13,6 @@ logLevel: info
 
 # Collection method is either EBPF, CORE_BPF, or NO_COLLECTION.
 perNodeCollectorCollection: CORE_BPF
+
+# The number of replicas of the admission control pod. Default is 3.
+admissionControlReplicas: 3
