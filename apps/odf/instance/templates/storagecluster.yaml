@@ -8,11 +8,11 @@ metadata:
   namespace: openshift-storage
 spec:
   enableCephTools: true
+{{ if .Values.encryptionKmsEnable }}
   encryption:
-{{ if .Values.encryptionEnable }}
-    enable: true
+    kms:
+      enable: true
 {{ end }}
-    kms: {}
   monPVCTemplate:
       metadata: {}
       spec:

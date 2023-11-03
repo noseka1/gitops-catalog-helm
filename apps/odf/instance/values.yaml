@@ -5,6 +5,6 @@ monPVCTemplate:
 storageDeviceSets:
   storageClassName: gp3-csi
   storageCapacity: 2Ti
-encryptionEnable: false
+encryptionKmsEnable: false
 uninstallCleanUpPolicy: delete
 uninstallMode: forced
