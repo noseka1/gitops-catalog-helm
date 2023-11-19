@@ -4,6 +4,8 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
+  liveUpdateFeatures:
+    cpu: {}
   runStrategy: Always
   template:
     metadata:
@@ -40,7 +42,8 @@ spec:
           - masquerade: {}
             model: virtio
             name: default
-          networkInterfaceMultiqueue: true
+          # CPU hotplug doesn't work with multiqueue virtio-net at this time
+          networkInterfaceMultiqueue: false
           rng: {}
         machine:
           type: pc-q35-rhel8.3.0
