@@ -47,9 +47,8 @@ spec:
           rng: {}
         machine:
           type: pc-q35-rhel8.3.0
-        resources:
-          requests:
-            memory: 2Gi
+        memory:
+          guest: 2Gi
       evictionStrategy: {{ .Values.machineEvictionStrategy }}
       hostname: {{ .Release.Name }}
       networks:
