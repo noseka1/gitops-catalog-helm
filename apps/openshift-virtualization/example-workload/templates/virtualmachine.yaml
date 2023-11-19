@@ -13,7 +13,7 @@ spec:
         kubevirt.io/domain: {{ .Release.Name }}
         kubevirt.io/size: small
         vm.kubevirt.io/name: {{ .Release.Name }}
-        os.template.kubevirt.io/fedora37: 'true'
+        os.template.kubevirt.io/fedora39: 'true'
         flavor.template.kubevirt.io/small: 'true'
         workload.template.kubevirt.io/server: 'true'
     spec:

@@ -14,9 +14,9 @@ machineRootDiskStorageClassName: ''
 machineRootDiskVolumeMode: Filesystem
 
 # Download the machine image from URL
-machineImageHttpUrl: https://download.fedoraproject.org/pub/fedora/linux/releases/37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2
+machineImageHttpUrl: https://download.fedoraproject.org/pub/fedora/linux/releases/39/Cloud/x86_64/images/Fedora-Cloud-Base-39-1.5.x86_64.qcow2
 
-# Pull the machine image from a container registry. For example: docker://quay.io/containerdisks/fedora:37
+# Pull the machine image from a container registry. For example: docker://quay.io/containerdisks/fedora:39
 machineImageRegistryUrl: ''
 
 machineServiceType: NodePort
