@@ -4,7 +4,9 @@ metadata:
   name: volsync-product
   namespace: openshift-operators
 spec:
-  channel: stable
+{{- with .Values.subscriptionChannel }}
+  channel: {{ . }}
+{{- end }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: volsync-product
   source: redhat-operators
