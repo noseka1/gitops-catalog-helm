@@ -1,4 +1,4 @@
 subscriptionApproval: Automatic
-subscriptionChannel: stable
+subscriptionChannel: stable-1.3
 
 manageNamespace: true
