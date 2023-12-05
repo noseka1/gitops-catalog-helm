@@ -4,7 +4,9 @@ metadata:
   name: aws-efs-csi-driver-operator
   namespace: openshift-cluster-csi-drivers
 spec:
+{{- if .Values.subscriptionChannel }}
   channel: {{ .Values.subscriptionChannel }}
+{{- end }}
   installPlanApproval: {{ .Values.subscriptionChannel }}
   name: aws-efs-csi-driver-operator
   source: redhat-operators
