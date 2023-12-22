@@ -1,0 +1,4 @@
+apiVersion: v2
+name: cluster-logging-eventrouter
+type: application
+version: 0.1.0
