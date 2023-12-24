@@ -1,0 +1,9 @@
+apiVersion: nfd.openshift.io/v1
+kind: NodeFeatureDiscovery
+metadata:
+  name: nfd
+  namespace: {{ .Release.Namespace }}
+spec:
+  operand:
+    image: {{ .Values.operandImage }}
+    imagePullPolicy: Always
