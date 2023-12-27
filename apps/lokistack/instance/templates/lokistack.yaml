@@ -5,6 +5,12 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   limits:
+    global:
+      ingestion:
+        # Maximum byte rate per second per stream in MB
+        perStreamRateLimit: 50
+        # Maximum burst bytes per stream in MB
+        perStreamRateLimitBurst: 100
     tenants:
       additionalProperties:
         ingestion:
