@@ -1,3 +1,5 @@
+manageNamespace: true
+
 machineSshAuthorizedKey: ''
 machineUserName: fedora
 machineUserPassword: yqhl-56fp-cceo
