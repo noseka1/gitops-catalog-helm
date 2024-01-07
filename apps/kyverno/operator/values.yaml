@@ -5,15 +5,34 @@ kyverno:
     # See also https://kyverno.io/docs/monitoring/
     serviceMonitor:
       enabled: true
+    # Tracing is disabled by default and depending on the backend the associated
+    # cost can be significant.
+    # See also https://kyverno.io/docs/tracing/
+    tracing:
+      enabled: false
+      address: tempo-tempostack-distributor.tempostack.svc
+      port: 4317
   backgroundController:
     serviceMonitor:
       enabled: true
+    tracing:
+      enabled: false
+      address: tempo-tempostack-distributor.tempostack.svc
+      port: 4317
   cleanupController:
     serviceMonitor:
       enabled: true
+    tracing:
+      enabled: false
+      address: tempo-tempostack-distributor.tempostack.svc
+      port: 4317
   reportsController:
     serviceMonitor:
       enabled: true
+    tracing:
+      enabled: false
+      address: tempo-tempostack-distributor.tempostack.svc
+      port: 4317
   policyReportsCleanup:
     securityContext:
       runAsUser: null
