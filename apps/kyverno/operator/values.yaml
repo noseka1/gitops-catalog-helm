@@ -1,5 +1,8 @@
 kyverno:
   admissionController:
+    # Create serviceMonitor object so that OpenShift can auto-discover
+    # metric endpoints and start collecting metrics automatically
+    # See also https://kyverno.io/docs/monitoring/
     serviceMonitor:
       enabled: true
   backgroundController:
