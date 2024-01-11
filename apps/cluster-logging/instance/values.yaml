@@ -1,3 +1,5 @@
+forwardToLoki: true
+
 forwardToSyslogEnabled: false
 syslogUrl: ''
 

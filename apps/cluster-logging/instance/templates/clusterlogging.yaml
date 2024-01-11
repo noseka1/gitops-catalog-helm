@@ -5,9 +5,11 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   managementState: Managed
+{{- if .Values.forwardToLoki }}
   logStore:
     type: lokistack
     lokistack:
       name: loki
+{{- end }}
   collection:
     type: vector

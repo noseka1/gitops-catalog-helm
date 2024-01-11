@@ -1,3 +1,4 @@
+{{- if or .Values.forwardToLoki .Values.forwardToSyslogEnabled .Values.forwardToSplunkEnabled }}
 apiVersion: logging.openshift.io/v1
 kind: ClusterLogForwarder
 metadata:
@@ -27,6 +28,7 @@ spec:
 {{- end }}
 {{- end }}
   pipelines:
+{{- if .Values.forwardToLoki }}
   - name: default
     inputRefs:
     - infrastructure
@@ -36,6 +38,7 @@ spec:
     - audit
     outputRefs:
     - default
+{{- end }}
 {{- if .Values.forwardToSyslogEnabled }}
   - name: syslog
     inputRefs:
@@ -53,4 +56,5 @@ spec:
     - audit
     outputRefs:
     - splunk
+{{- end }}
 {{- end }}
