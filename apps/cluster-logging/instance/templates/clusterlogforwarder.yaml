@@ -1,0 +1,56 @@
+apiVersion: logging.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance
+  namespace: {{ .Release.Namespace }}
+spec:
+{{- if or .Values.forwardToSyslogEnabled .Values.forwardToSplunkEnabled }}
+  outputs:
+{{- if .Values.forwardToSyslogEnabled }}
+  - name: syslog
+    type: syslog
+    url: {{ .Values.syslogUrl }}
+    syslog:
+      addLogSource: true
+      facility: local0
+      payloadKey: message
+      rfc: RFC3164
+      severity: Informational
+      tag: mytag
+{{- end }}
+{{- if .Values.forwardToSplunkEnabled }}
+  - name: splunk
+    type: splunk
+    url: {{ .Values.splunkHecEndpoint }}
+    secret:
+      name: splunk-secret
+{{- end }}
+{{- end }}
+  pipelines:
+  - name: default
+    inputRefs:
+    - infrastructure
+    - application
+    #  By default cluster logging does NOT send audit logs to the internal store
+    #  because the internal store does not provide a secure storage
+    - audit
+    outputRefs:
+    - default
+{{- if .Values.forwardToSyslogEnabled }}
+  - name: syslog
+    inputRefs:
+    - application
+    - infrastructure
+    - audit
+    outputRefs:
+    - syslog
+{{- end }}
+{{- if .Values.forwardToSplunkEnabled }}
+  - name: splunk
+    inputRefs:
+    - application
+    - infrastructure
+    - audit
+    outputRefs:
+    - splunk
+{{- end }}

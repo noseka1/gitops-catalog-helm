@@ -1,0 +1,6 @@
+forwardToSyslogEnabled: false
+syslogUrl: ''
+
+forwardToSplunkEnabled: false
+splunkHecEndpoint: ''
+splunkHecToken: ''
