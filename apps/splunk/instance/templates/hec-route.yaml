@@ -11,4 +11,4 @@ spec:
     insecureEdgeTerminationPolicy: Redirect
   to:
     kind: Service
-    name: {{ .Release.Namespace }}-{{ .Release.Name }}-standalone-service
+    name: splunk-{{ .Release.Name }}-standalone-service
