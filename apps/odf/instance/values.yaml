@@ -6,5 +6,17 @@ storageDeviceSets:
   storageClassName: gp3-csi
   storageCapacity: 2Ti
 encryptionKmsEnable: false
+# If the uninstall.ocs.openshift.io/cleanup-policy is set to "delete",
+# the Rook-Ceph storage operator cleans up the physical drives and the DataDirHostPath.
+# If the uninstall.ocs.openshift.io/cleanup-policy is set to "retain",
+# it keeps the physical drives and DataDirHostPath.
+# For production deployments, set uninstallCleanUpPolicy to "retain".
 uninstallCleanUpPolicy: delete
+# If the uninstall.ocs.openshift.io/mode is set to "graceful",
+# the Rook-Ceph and NooBaa operators pause the uninstall process
+# until the PVCs and OBCs are removed manually.
+# If the uninstall.ocs.openshift.io/mode is set to "forced",
+# the Rook-Ceph and NooBaa operators proceed with the uninstall process,
+# even if the PVCs and the OBCs still exist.
+# For production deployments, set uninstallMode to "graceful".
 uninstallMode: forced
