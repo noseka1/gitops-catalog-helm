@@ -25,6 +25,8 @@ spec:
         storageClassName: {{ .Values.monPVCTemplate.storageClassName }}
         volumeMode: Filesystem
       status: {}
+  nfs:
+    enable: true
   storageDeviceSets:
   - config: {}
     count: 1
