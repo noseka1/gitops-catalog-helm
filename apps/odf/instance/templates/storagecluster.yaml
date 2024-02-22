@@ -8,8 +8,9 @@ metadata:
   namespace: openshift-storage
 spec:
   enableCephTools: true
-{{ if .Values.encryptionKmsEnable }}
   encryption:
+    clusterWide: {{ .Values.encryptionClusterWide }}
+{{ if .Values.encryptionKmsEnable }}
     kms:
       enable: true
 {{ end }}

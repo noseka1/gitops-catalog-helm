@@ -5,6 +5,10 @@ monPVCTemplate:
 storageDeviceSets:
   storageClassName: gp3-csi
   storageCapacity: 2Ti
+# Enable cluster-wide storage encryption
+# (this setting cannot be changed after the storage cluster was created)
+encryptionClusterWide: false
+# Enable KMS-based volume encryption
 encryptionKmsEnable: false
 # If the uninstall.ocs.openshift.io/cleanup-policy is set to "delete",
 # the Rook-Ceph storage operator cleans up the physical drives and the DataDirHostPath.
