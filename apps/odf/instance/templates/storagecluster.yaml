@@ -15,16 +15,16 @@ spec:
       enable: true
 {{ end }}
   monPVCTemplate:
-      metadata: {}
-      spec:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: '{{ .Values.monPVCTemplate.storageCapacity }}'
-        storageClassName: {{ .Values.monPVCTemplate.storageClassName }}
-        volumeMode: Filesystem
-      status: {}
+    metadata: {}
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: '{{ .Values.monPVCTemplate.storageCapacity }}'
+      storageClassName: {{ .Values.monPVCTemplate.storageClassName }}
+      volumeMode: Filesystem
+    status: {}
   nfs:
     enable: true
   storageDeviceSets:
