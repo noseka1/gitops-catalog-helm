@@ -1,0 +1,13 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: odf-multicluster-orchestrator
+  namespace: openshift-operators
+spec:
+{{- with .Values.subscriptionChannel }}
+  channel: {{ . }}
+{{- end }}
+  installPlanApproval: {{ .Values.subscriptionApproval }}
+  name: odf-multicluster-orchestrator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: odf-multicluster-orchestrator-operator
+type: application
+version: 0.1.0
