@@ -9,7 +9,9 @@ metadata:
 spec:
   enableCephTools: true
   encryption:
-    clusterWide: {{ .Values.encryptionClusterWide }}
+{{ if .Values.encryptionClusterWide }}
+    clusterWide: true
+{{ end }}
 {{ if .Values.encryptionKmsEnable }}
     kms:
       enable: true
