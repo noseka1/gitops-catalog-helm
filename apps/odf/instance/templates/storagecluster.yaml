@@ -18,6 +18,9 @@ spec:
       enable: true
 {{- end }}
 {{- end }}
+{{- if .Values.useHostPathForMonDataDir }}
+  monDataDirHostPath: /var/lib/rook
+{{- else }}
   monPVCTemplate:
     metadata: {}
     spec:
@@ -29,6 +32,7 @@ spec:
       storageClassName: {{ .Values.monPVCTemplate.storageClassName }}
       volumeMode: Filesystem
     status: {}
+{{ - end }}
 {{- if .Values.multiCloudGateway.storageClassName }}
   multiCloudGateway:
     dbStorageClassName: {{ .Values.multiCloudGateway.storageClassName }}

@@ -1,3 +1,6 @@
+# Persistent storage for Ceph mons can come from hostPath (typically used on bare metal
+# clusters) or from a PVC (typically used on VMware and public cloud)
+useHostPathForMonDataDir: false
 # Example storage class names: gp3-csi (AWS), thin-csi (VMware), openebs-lvm, lvms-loop1-vg
 monPVCTemplate:
   storageClassName: gp3-csi
