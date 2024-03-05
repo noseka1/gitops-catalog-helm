@@ -29,6 +29,10 @@ spec:
       storageClassName: {{ .Values.monPVCTemplate.storageClassName }}
       volumeMode: Filesystem
     status: {}
+{{- if .Values.multiCloudGateway.storageClassName }}
+  multiCloudGateway:
+    dbStorageClassName: {{ .Values.multiCloudGateway.storageClassName }}
+{{- end }}
   nfs:
     enable: true
   storageDeviceSets:

@@ -7,6 +7,13 @@ storageDeviceSets:
   storageCapacity: 2Ti
   count: 1
   replica: 3
+# The default storageclass for NooBaa is ocs-storagecluster-ceph-rbd. This causes
+# issues during ODF uninstallation. The storage cluster is being deleted while NooBaa
+# still uses a PVC (db-noobaa-db-pg-0) provisioned from the storage cluster.
+# This option allows setting the storageclass to something else like for example
+# gp3-csi on AWS, so that the uninstallation of ODF doesn't get stuck.
+multiCloudGateway:
+  storageClassName: ''
 # Enable cluster-wide storage encryption
 # (this setting cannot be changed after the storage cluster was created)
 encryptionClusterWide: false
