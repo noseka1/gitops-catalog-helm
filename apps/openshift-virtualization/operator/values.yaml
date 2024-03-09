@@ -1,3 +1,4 @@
 subscriptionApproval: Automatic
 subscriptionChannel: ''
+subscriptionStartingCsv: ''
 kvmEmulationEnabled: false
