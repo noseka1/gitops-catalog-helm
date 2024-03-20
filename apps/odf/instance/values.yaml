@@ -5,6 +5,8 @@ monPVCTemplate:
 storageDeviceSets:
   storageClassName: gp3-csi
   storageCapacity: 2Ti
+  count: 1
+  replica: 3
 # Enable cluster-wide storage encryption
 # (this setting cannot be changed after the storage cluster was created)
 encryptionClusterWide: false

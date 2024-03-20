@@ -33,7 +33,7 @@ spec:
     enable: true
   storageDeviceSets:
   - config: {}
-    count: 1
+    count: {{ .Values.storageDeviceSets.count }}
     dataPVCTemplate:
       metadata: {}
       spec:
@@ -49,5 +49,5 @@ spec:
     placement: {}
     portable: true
     preparePlacement: {}
-    replica: 3
+    replica: {{ .Values.storageDeviceSets.replica }}
     resources: {}
