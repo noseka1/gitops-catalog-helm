@@ -11,3 +11,6 @@ spec:
   name: node-maintenance-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+{{- with .Values.subscriptionStartingCsv }}
+  startingCSV: {{ . }}
+{{- end }}
