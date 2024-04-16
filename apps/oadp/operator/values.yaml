@@ -1,4 +1,5 @@
 subscriptionApproval: Automatic
-subscriptionChannel: stable-1.3
+subscriptionChannel: ''
+subscriptionStartingCsv: ''
 
 manageNamespace: true
