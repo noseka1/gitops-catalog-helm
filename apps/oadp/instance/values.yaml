@@ -11,7 +11,3 @@ s3Storage:
   s3ForcePathStyle: true
   insecureSkipTlsVerify: false
   caCert: ''
-
-# Configure VolSync data mover
-dataMoverEnabled: false
-dataMoverResticPassword: ''

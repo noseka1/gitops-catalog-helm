@@ -5,14 +5,15 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
     velero:
       defaultPlugins:
         # The openshift plug-in is mandatory.
         - openshift
         - aws
-{{- if .Values.dataMoverEnabled }}
-        - vsm
-{{- end }}
+        - kubevirt
 {{- if not .Values.vSphereEnabled }}
         - csi
       featureFlags:
@@ -29,11 +30,13 @@ spec:
         # snapshots to S3. The datamgr-for-vsphere-plugin pod won't be deployed at all.
         #- EnableLocalMode
 {{- end }}
+      # Specify whether CSI snapshot data should be moved to backup storage by default
+      defaultSnapshotMoveData: true
+      # Use pod volume file system backup by default for volumes
+      defaultVolumesToFSBackup: false
       # If you need to install Velero without a default backup storage location
       # NoDefaultBackupLocation flag is required for confirmation
       noDefaultBackupLocation: false
-    restic:
-      enable: false
   backupLocations:
     - velero:
         provider: aws
@@ -66,10 +69,3 @@ spec:
     - velero:
         provider: velero.io/vsphere
 {{- end }}
-  features:
-    dataMover:
-      enable: {{ .Values.dataMoverEnabled }}
-      credentialName: dm-credential
-      maxConcurrentBackupVolumes: "3"
-      maxConcurrentRestoreVolumes: "3"
-      pruneInterval: "14"
