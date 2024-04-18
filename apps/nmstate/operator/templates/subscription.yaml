@@ -4,8 +4,13 @@ metadata:
   name: kubernetes-nmstate-operator
   namespace: openshift-nmstate
 spec:
-  channel: stable
+{{- with .Values.subscriptionChannel }}
+  channel: {{ . }}
+{{- end }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: kubernetes-nmstate-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+{{- with .Values.subscriptionStartingCsv }}
+  startingCSV: {{ . }}
+{{- end }}
