@@ -1,4 +1,4 @@
 apiVersion: v2
-name: rhsso-operator
+name: rhbk-instance
 type: application
 version: 0.1.0
