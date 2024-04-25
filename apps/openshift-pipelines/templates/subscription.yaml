@@ -1,11 +1,16 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: {{ .Values.subscriptionName }}
+  name: openshift-pipelines-operator
   namespace: openshift-operators
 spec:
-  channel: latest
+{{- with .Values.subscriptionChannel }}
+  channel: {{ . }}
+{{- end }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: openshift-pipelines-operator-rh
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+{{- with .Values.subscriptionStartingCsv }}
+  startingCSV: {{ . }}
+{{- end }}
