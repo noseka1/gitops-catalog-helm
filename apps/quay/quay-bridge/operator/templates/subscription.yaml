@@ -4,10 +4,13 @@ metadata:
   name: quay-bridge-operator
   namespace: {{ .Release.Namespace }}
 spec:
-{{- if .Values.subscriptionChannel }}
-  channel: {{ .Values.subscriptionChannel }}
+{{- with .Values.subscriptionChannel }}
+  channel: {{ . }}
 {{- end }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: quay-bridge-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+{{- with .Values.subscriptionStartingCsv }}
+  startingCSV: {{ . }}
+{{- end }}
