@@ -23,6 +23,8 @@ spec:
     managed: true
   - kind: quay
     managed: true
+    overrides:
+      replicas: {{ .Values.quayReplicas }}
   - kind: tls
     managed: true
   - kind: clairpostgres

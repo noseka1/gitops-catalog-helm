@@ -1,0 +1,8 @@
+storageHostname: minio.quay-enterprise-minio.svc
+storagePort: '9000'
+storageIsSecure: false
+storageAccessKey: admin
+storageSecretKey: ''
+storageBucketName: mybucket1
+
+quayReplicas: 2
