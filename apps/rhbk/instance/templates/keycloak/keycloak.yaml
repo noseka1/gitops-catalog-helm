@@ -30,29 +30,9 @@ spec:
   http:
     # This will create an edge-terminated Route
     httpEnabled: true
-  unsupported:
-    podTemplate:
-      spec:
-        containers:
-        # Import custom CA certificates into Keycloak's trust store
-        # This configuration can be likely removed in Keycloakv version 24
-        # See also https://github.com/keycloak/keycloak/issues/25094
-        - command:
-          - /bin/sh
-          - /mnt/startup/keycloak-entrypoint.sh
-          volumeMounts:
-          - name: entrypoint
-            mountPath: /mnt/startup
-          - name: truststore
-            mountPath: /mnt/truststore
-          - name: cabundle
-            mountPath: /mnt/trust-ca
-        volumes:
-        - name: truststore
-          emptyDir: {}
-        - name: entrypoint
-          configMap:
-            name: keycloak-entrypoint
-        - name: cabundle
-          configMap:
-            name: trusted-ca-bundle
+{{- if gt (len .Values.trustedCaCert) 0 }}
+  truststores:
+    trusted-ca-bundle:
+      secret:
+        name: trusted-ca
+{{- end }}
