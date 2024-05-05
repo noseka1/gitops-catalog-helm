@@ -1,0 +1,8 @@
+backstageBaseUrl: ''
+backstageSessionSecret: ''
+backstageBackendSecret: ''
+
+keycloakBaseUrl: ''
+keycloakRealm: ''
+keycloakClientId: ''
+keycloakClientSecret: ''

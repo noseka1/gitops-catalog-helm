@@ -1,0 +1,43 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: app-config-rhdh
+  namespace: {{ .Release.Namespace }}
+data:
+  app-config-rhdh.yaml: |
+    app:
+      title: Red Hat Developer Hub
+      baseUrl: {{ .Values.backstageBaseUrl }}
+    auth:
+      environment: default
+      session:
+        secret: ${SESSION_SECRET}
+      providers:
+        oidc:
+          default:
+            metadataUrl: {{ .Values.keycloakBaseUrl }}/realms/{{ .Values.keycloakRealm }}
+            clientId: {{ .Values.keycloakClientId }}
+            clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+            prompt: auto
+            callbackUrl: {{ .Values.backstageBaseUrl }}/api/auth/oidc/handler/frame
+    signInPage: oidc
+    backend:
+      auth:
+        keys:
+        - secret: ${BACKEND_SECRET}
+      baseUrl: {{ .Values.backstageBaseUrl }}
+      cors:
+        origin: {{ .Values.backstageBaseUrl }}
+    catalog:
+      providers:
+        keycloakOrg:
+          default:
+            baseUrl: {{ .Values.keycloakBaseUrl }}
+            loginRealm: {{ .Values.keycloakRealm }}
+            realm: {{ .Values.keycloakRealm }}
+            clientId: {{ .Values.keycloakClientId }}
+            clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+            schedule:
+              frequency: { minutes: 1 }
+              timeout: { seconds: 30 }
+              initialDelay: { seconds: 15 }
