@@ -1,0 +1,4 @@
+apiVersion: v2
+name: rhacm-multicluster-global-hub
+type: application
+version: 0.1.0
