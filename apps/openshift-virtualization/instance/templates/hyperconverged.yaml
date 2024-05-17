@@ -13,6 +13,7 @@ metadata:
   name: kubevirt-hyperconverged
   namespace: openshift-cnv
 spec:
+  evictionStrategy: LiveMigrateIfPossible
   infra: {}
   workloads:
     nodePlacement:
