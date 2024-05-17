@@ -13,6 +13,7 @@ metadata:
   name: kubevirt-hyperconverged
   namespace: openshift-cnv
 spec:
+  # Migrate the VM on eviction if live migration is possible, otherwise directly evict
   evictionStrategy: LiveMigrateIfPossible
   infra: {}
   workloads:
