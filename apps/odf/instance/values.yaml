@@ -1,5 +1,7 @@
 # Persistent storage for Ceph mons can come from hostPath (typically used on bare metal
 # clusters) or from a PVC (typically used on VMware and public cloud)
+# If using hostPath volumes, remember to delete the /var/lib/rook directory on OpenShift nodes
+# before redeploying the ODF cluster using: sudo rm -rf /var/lib/rook
 useHostPathForMonDataDir: false
 # Example storage class names: gp3-csi (AWS), thin-csi (VMware), openebs-lvm, lvms-loop1-vg
 monPVCTemplate:
