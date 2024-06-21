@@ -13,5 +13,7 @@ spec:
 {{- with .Values.machineImageRegistryUrl }}
     registry:
       url: {{ . }}
-      certConfigMap: {{ $.Release.Name }}-trusted-ca-bundle
+      # Take advantage of the OpenShift pull secret which is required
+      # to pull container images from the Red Hat registry.
+      pullMethod: node
 {{- end }}

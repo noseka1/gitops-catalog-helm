@@ -8,12 +8,11 @@ spec:
     apiGroup: cdi.kubevirt.io
     kind: VolumeImportSource
     name: {{ .Release.Name }}-rootdisk
-  pvc:
-    accessModes: {{ toYaml .Values.machineRootDiskAccessModes | nindent 8 }}
-    resources:
-      requests:
-        storage: '{{ .Values.machineRootDiskCapacity }}'
+  accessModes: {{ toYaml .Values.machineRootDiskAccessModes | nindent 8 }}
+  resources:
+    requests:
+      storage: '{{ .Values.machineRootDiskCapacity }}'
 {{- if gt (len .Values.machineRootDiskStorageClassName) 0 }}
-    storageClassName: {{ .Values.machineRootDiskStorageClassName }}
+  storageClassName: {{ .Values.machineRootDiskStorageClassName }}
 {{- end }}
-    volumeMode: {{ .Values.machineRootDiskVolumeMode }}
+  volumeMode: {{ .Values.machineRootDiskVolumeMode }}
