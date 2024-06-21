@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-rootdisk
+  namespace: {{ .Release.Namespace }}
+spec:
+  dataSourceRef:
+    apiGroup: cdi.kubevirt.io
+    kind: VolumeImportSource
+    name: {{ .Release.Name }}-rootdisk
+  pvc:
+    accessModes: {{ toYaml .Values.machineRootDiskAccessModes | nindent 8 }}
+    resources:
+      requests:
+        storage: '{{ .Values.machineRootDiskCapacity }}'
+{{- if gt (len .Values.machineRootDiskStorageClassName) 0 }}
+    storageClassName: {{ .Values.machineRootDiskStorageClassName }}
+{{- end }}
+    volumeMode: {{ .Values.machineRootDiskVolumeMode }}

@@ -60,6 +60,6 @@ spec:
           secretRef:
             name: {{ .Release.Name }}-cloudinit
         name: cloudinitdisk
-      - dataVolume:
-          name: {{ .Release.Name }}-rootdisk
+      - persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-rootdisk
         name: rootdisk
