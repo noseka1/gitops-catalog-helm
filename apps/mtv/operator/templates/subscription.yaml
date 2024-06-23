@@ -4,8 +4,13 @@ metadata:
   name: mtv-operator
   namespace: openshift-mtv
 spec:
-  channel: {{ .Values.subscriptionChannel }}
+{{- with .Values.subscriptionChannel }}
+  channel: {{ . }}
+{{- end }}
   installPlanApproval: {{ .Values.subscriptionApproval }}
   name: mtv-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+{{- with .Values.subscriptionStartingCsv }}
+  startingCSV: {{ . }}
+{{- end }}
