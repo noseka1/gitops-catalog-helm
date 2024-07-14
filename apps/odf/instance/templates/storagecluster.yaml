@@ -55,7 +55,7 @@ spec:
       status: {}
     name: ocs-deviceset
     placement: {}
-    portable: true
+    portable: {{ .Values.storageDeviceSets.portable }}
     preparePlacement: {}
     replica: {{ .Values.storageDeviceSets.replica }}
     resources: {}
