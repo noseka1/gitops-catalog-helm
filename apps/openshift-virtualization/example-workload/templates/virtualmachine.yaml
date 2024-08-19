@@ -4,8 +4,6 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
-  liveUpdateFeatures:
-    cpu: {}
   runStrategy: Always
   template:
     metadata:
