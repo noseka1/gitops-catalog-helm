@@ -1,4 +1,4 @@
-{{ if .Values.manageNamespace }}
+{{ if .Values.manageNamespaceAndOperatorGroup }}
 apiVersion: v1
 kind: Namespace
 metadata:
