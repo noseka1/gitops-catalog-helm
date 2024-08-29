@@ -1,3 +1,4 @@
+{{ if .Values.manageNamespace }}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -10,3 +11,4 @@ metadata:
   labels:
     openshift.io/cluster-monitoring: "true"
   name: openshift-storage
+{{ end }}
