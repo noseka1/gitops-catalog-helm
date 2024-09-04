@@ -1,0 +1,18 @@
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-external-storagecluster
+  namespace: {{ .Release.Namespace }}
+spec:
+  externalStorage:
+    enable: true
+  labelSelector: {}
+  managedResources:
+    cephBlockPools: {}
+{{- if .Values.multiCloudGateway.storageClassName }}
+  multiCloudGateway:
+    dbStorageClassName: {{ .Values.multiCloudGateway.storageClassName }}
+{{- end }}
+  network:
+    connections:
+      encryption: {}

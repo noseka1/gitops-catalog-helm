@@ -6,7 +6,7 @@ metadata:
     uninstall.ocs.openshift.io/cleanup-policy: {{ .Values.uninstallCleanUpPolicy }}
     uninstall.ocs.openshift.io/mode: {{ .Values.uninstallMode }}
   name: ocs-storagecluster
-  namespace: openshift-storage
+  namespace: {{ .Release.Namespace }}
 spec:
   enableCephTools: true
 {{- if or .Values.encryptionClusterWide .Values.encryptionKmsEnable }}
