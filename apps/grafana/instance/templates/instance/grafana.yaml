@@ -31,6 +31,7 @@ spec:
           containers:
           - name: grafana
             image: {{ .Values.baseImage }}
+            resources: {}
   service:
     spec:
       type: ClusterIP
