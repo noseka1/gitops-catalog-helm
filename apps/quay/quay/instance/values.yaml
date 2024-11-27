@@ -6,3 +6,5 @@ storageSecretKey: ''
 storageBucketName: mybucket1
 
 quayReplicas: 2
+
+clairManaged: true

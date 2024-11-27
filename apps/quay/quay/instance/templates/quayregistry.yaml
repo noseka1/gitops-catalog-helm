@@ -6,7 +6,7 @@ metadata:
 spec:
   components:
   - kind: clair
-    managed: true
+    managed: {{ .Values.clairManaged }}
   - kind: postgres
     managed: true
   - kind: objectstorage
@@ -28,5 +28,5 @@ spec:
   - kind: tls
     managed: true
   - kind: clairpostgres
-    managed: true
+    managed: {{ .Values.clairManaged }}
   configBundleSecret: quay-registry-config-bundle
