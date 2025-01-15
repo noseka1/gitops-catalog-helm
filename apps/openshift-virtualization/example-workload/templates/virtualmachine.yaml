@@ -37,9 +37,16 @@ spec:
               bus: virtio
             name: rootdisk
           interfaces:
+          {{- if .Values.machinePodNetwork }}
           - masquerade: {}
             model: virtio
             name: default
+          {{- end }}
+          {{- if gt (len .Values.machineMultusNetworkName) 0 }}
+          - bridge: {}
+            model: virtio
+            name: net2
+          {{- end }}
           # CPU hotplug doesn't work with multiqueue virtio-net at this time
           networkInterfaceMultiqueue: false
           rng: {}
@@ -50,8 +57,15 @@ spec:
       evictionStrategy: {{ .Values.machineEvictionStrategy }}
       hostname: {{ .Release.Name }}
       networks:
+      {{- if .Values.machinePodNetwork }}
       - name: default
         pod: {}
+      {{- end }}
+      {{- if gt (len .Values.machineMultusNetworkName) 0 }}
+      - name: net2
+        multus:
+          networkName: {{ .Values.machineMultusNetworkName }}
+      {{- end }}
       terminationGracePeriodSeconds: 180
       volumes:
       - cloudInitNoCloud:

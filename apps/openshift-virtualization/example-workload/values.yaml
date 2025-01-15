@@ -4,6 +4,9 @@ machineSshAuthorizedKey: ''
 machineUserName: fedora
 machineUserPassword: yqhl-56fp-cceo
 
+machinePodNetwork: true
+machineMultusNetworkName: ''
+
 machineNodeSelector: {}
 #  node-role.kubernetes.io/baremetal: ""
 
