@@ -15,6 +15,9 @@ metadata:
 spec:
   # Migrate the VM on eviction if live migration is possible, otherwise directly evict
   evictionStrategy: LiveMigrateIfPossible
+  featuregates:
+    # Enable SCSI persistent reservations
+    persistentReservation: true
   infra: {}
   workloads:
     nodePlacement:
