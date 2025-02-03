@@ -8,6 +8,6 @@ spec:
     name: vmware-creds
     namespace: openshift-mtv
   settings:
-    vddkInitImage: registry.lab.example.com:5002/vddk/vddk:latest
+    vddkInitImage: registry.lab.example.com:5002/noseka1/vddk/vddk:latest
   type: vsphere
   url: https://photon-machine.lab.example.com/sdk

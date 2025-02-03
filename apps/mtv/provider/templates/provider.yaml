@@ -1,0 +1,15 @@
+{{- range .Values.providers }}
+apiVersion: forklift.konveyor.io/v1beta1
+kind: Provider
+metadata:
+  name: {{ .name }}
+  namespace: openshift-mtv
+spec:
+  secret:
+    name: {{ .name }}-creds
+    namespace: openshift-mtv
+  settings:
+    vddkInitImage: {{ .vddkInitImage }}
+  type: {{ .type }}
+  url: {{ .url }}
+{{- end }}
